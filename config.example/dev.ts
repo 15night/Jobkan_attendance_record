@@ -1,5 +1,5 @@
 export default {
   Jobcan: {
-      Url: "{ジョブカンのURL}"
+    Url: "{ジョブカンのURL}"
   }
 }

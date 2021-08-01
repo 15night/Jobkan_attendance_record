@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint --fix 'src/**/*.{js,ts}'",
-    "prettier-watch": "npx onchange \"src/**\" -- prettier --write --ignore-unknown {{changed}}"
+    "prettier-watch": "npx onchange \"src/**\" -- prettier --write --ignore-unknown {{changed}}",
+    "dev": "NODE_ENV=dev npx ts-node src/main.ts"
   },
   "keywords": [],
   "author": "",
