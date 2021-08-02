@@ -1,10 +1,10 @@
-import { SlowBuffer } from "buffer"
 import { GoogleLogin } from "./Google/GoogleLogin"
+import { JobcanLogin } from "./Jobcan/JobcanLogin"
 import { getLogger } from "./Log/GetLogger"
 
 const log = getLogger()
 
 async function workFlow() {
-  console.log("あああ")
+  //  TODOログイン処理
 }
 workFlow()
