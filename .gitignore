@@ -5,3 +5,4 @@ tsconfig.json
 /.eslintrc.js
 config/
 src/Google/
+src/chrome/
