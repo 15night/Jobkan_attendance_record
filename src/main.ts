@@ -1,6 +1,7 @@
 import { GoogleLogin, GoogleLoginInterface } from "./Google/GoogleLogin"
 import { WebDriverFactory } from "./Chrome/ChromeWebDriver"
-import { DownloadFile } from "./Chrome/downloadFile"
+import { DownloadFile } from "./Chrome/DownloadFile"
+import { JobcanOperation } from "./Jobcan/JobcanOperation"
 import { JobcanLogin } from "./Jobcan/JobcanLogin"
 import { getLogger } from "./Log/GetLogger"
 import config from "config"
@@ -16,13 +17,30 @@ async function workFlow() {
   )
 
   // ログイン処理
-  const JobcanLoginData: GoogleLoginInterface = {
+  const jobcanLoginData: GoogleLoginInterface = {
     driver: downloadFileInstance.driver,
-    id: config.get<string>("google.id"),
-    pw: config.get<string>("google.pw")
+    id: config.get<string>("Google.id"),
+    pw: config.get<string>("Google.pw")
   }
   const jobcanUrl = config.get<string>("Jobcan.Url")
+  const webDriverActionData = {
+    driver: jobcanLoginData.driver,
+    url: jobcanUrl
+  }
+  await new JobcanLogin(jobcanLoginData, jobcanUrl).login()
+  const jobcanOperation = new JobcanOperation(webDriverActionData)
+  await jobcanOperation.openAttendanceRecord()
+  // .catch((e) => {
+  //   log.debug(
+  //     `ジョブカンの操作がうまくいきませんでした: ${JSON.stringify({
+  //       error: e
+  //     })}`
+  //   )
+  //   throw new Error()
+  // })
 
-  await new JobcanLogin(JobcanLoginData, jobcanUrl).login()
+  // ブラウザ閉じる
+  // await jobcanLoginData.driver.close()
+  // await jobcanLoginData.driver.quit()
 }
 workFlow()
