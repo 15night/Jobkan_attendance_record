@@ -7,6 +7,7 @@ import { By, until, Key } from "selenium-webdriver"
 import { getLogger } from "../Log/GetLogger"
 
 const log = getLogger()
+const jobcanCssSelector = new JobcanCssSelector()
 
 export class JobcanOperation extends CommonWebDriverAction {
   constructor(commonWebDriverActionEntity: CommonWebDriverActionInterface) {
@@ -14,7 +15,6 @@ export class JobcanOperation extends CommonWebDriverAction {
   }
 
   async openAttendanceRecord() {
-    const jobcanCssSelector = new JobcanCssSelector()
     const a = await this.driver.getWindowHandle()
     console.log(a)
     await this.click(By.css(jobcanCssSelector.clickAttendanceMenu))
@@ -24,7 +24,7 @@ export class JobcanOperation extends CommonWebDriverAction {
         10000
       )
       .catch((e) => {
-        throw e
+        throw new Error()
       })
 
     //   Chromedriver操作下にあるタブを移動
@@ -37,13 +37,35 @@ export class JobcanOperation extends CommonWebDriverAction {
           this.elementLocated(jobcanCssSelector.clickAttendanceRecord),
         10000
       )
-      .catch((e) => {
-        throw e
+      .catch(() => {
+        throw new Error()
       })
 
     await this.click(By.css(jobcanCssSelector.clickAttendanceRecord)).catch(
-      (e) => {
-        throw e
+      () => {
+        throw new Error()
+      }
+    )
+  }
+
+  async DownloadAttendanceRecordCsv(year: number, month: number) {
+    console.log(`${year}年${month}月のCSVをダウンロードします`)
+
+    // 年入力
+    await this.click(By.xpath(`//option[@value='${year}']`)).catch(() => {
+      throw new Error()
+    })
+    //  月入力
+    await this.click(By.xpath(`//option[@value='${month}']`)).catch(() => {
+      throw new Error()
+    })
+
+    await this.click(By.css(jobcanCssSelector.choiceCsv)).catch((e) => {
+      throw new Error()
+    })
+    await this.click(By.css(jobcanCssSelector.clickDownloadButton)).catch(
+      () => {
+        throw new Error()
       }
     )
   }
