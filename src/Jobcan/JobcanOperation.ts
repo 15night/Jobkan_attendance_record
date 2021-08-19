@@ -24,7 +24,7 @@ export class JobcanOperation extends CommonWebDriverAction {
         10000
       )
       .catch((e) => {
-        throw e
+        throw new Error()
       })
 
     //   Chromedriver操作下にあるタブを移動
@@ -37,49 +37,35 @@ export class JobcanOperation extends CommonWebDriverAction {
           this.elementLocated(jobcanCssSelector.clickAttendanceRecord),
         10000
       )
-      .catch((e) => {
-        throw e
+      .catch(() => {
+        throw new Error()
       })
 
     await this.click(By.css(jobcanCssSelector.clickAttendanceRecord)).catch(
-      (e) => {
-        throw e
+      () => {
+        throw new Error()
       }
     )
   }
 
   async DownloadAttendanceRecordCsv(year: number, month: number) {
     console.log(`${year}年${month}月のCSVをダウンロードします`)
-    // TODO yearとmonthのプルダウン選択できるようにする
-    // selenium のTypeScriptのselect使えない
 
-    // await this.click(By.css(jobcanCssSelector.yearPullDown))
-    // await this.driver.findElement()
-    // await this.driver
-    //   .findElement(By.xpath(`//*[@id="mid61165871931bd"]/option[${year}]`))
-    //   .click()
-    // await this.click(By.id(jobcanCssSelector.monthPullDown))
-    // await this.driver.findElement()
-    // await this.driver
-    //   .findElement(By.xpath(`//*[@id="mid61165871931bd"]/option[${month}]`))
-    //   .click()
-    // await this.pullDownInput(
-    //   By.id("mid61165871931bd"),
-    //   By.css(jobcanCssSelector.yearPullDown),
-    //   `${year}`
-    // )
-    // console.log(`//*[@id="mid61165871931bd"]/option[@value="${year}"]`)
-    // await this.pullDownInput(
-    //   By.id("yid6116587193118"),
-    //   By.css(jobcanCssSelector.monthPullDown),
-    //   `${month}`
-    // )
+    // 年入力
+    await this.click(By.xpath(`//option[@value='${year}']`)).catch(() => {
+      throw new Error()
+    })
+    //  月入力
+    await this.click(By.xpath(`//option[@value='${month}']`)).catch(() => {
+      throw new Error()
+    })
+
     await this.click(By.css(jobcanCssSelector.choiceCsv)).catch((e) => {
-      throw e
+      throw new Error()
     })
     await this.click(By.css(jobcanCssSelector.clickDownloadButton)).catch(
-      (e) => {
-        throw e
+      () => {
+        throw new Error()
       }
     )
   }
