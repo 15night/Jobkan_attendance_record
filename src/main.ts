@@ -23,7 +23,7 @@ async function workFlow(year: number, month: number) {
     id: config.get<string>("Google.id"),
     pw: config.get<string>("Google.pw")
   }
-  const jobcanUrl = config.get<string>("Jobcan.Url")
+  const jobcanUrl = config.get<string>("Jobcan.url")
   const webDriverActionData = {
     driver: jobcanLoginData.driver,
     url: jobcanUrl
