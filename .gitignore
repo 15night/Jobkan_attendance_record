@@ -6,3 +6,5 @@ tsconfig.json
 config/
 src/Google/
 src/chrome/
+src/Csv/ExtractData.ts
+src/Log/LogInitializer.ts

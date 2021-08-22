@@ -1,6 +1,6 @@
 export default {
   Jobcan: {
-    Url: "{ジョブカンのURL}"
+    url: "{ジョブカンのURL}"
   },
   Google: {
     id: "{GoogleのログインID}",
