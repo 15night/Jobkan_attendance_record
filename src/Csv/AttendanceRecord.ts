@@ -15,7 +15,7 @@ export interface AttendanceRecordParameter {
   error: string
 }
 
-export class ItsOsakaProject extends ExtractData<AttendanceRecordParameter> {
+export class AttendanceRecord extends ExtractData<AttendanceRecordParameter> {
   getAll(): Array<AttendanceRecordParameter> {
     return this.list
   }
