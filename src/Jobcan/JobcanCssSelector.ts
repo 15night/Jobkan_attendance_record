@@ -5,4 +5,6 @@ export class JobcanCssSelector {
   monthPullDown = "#mid611650d9da9a0"
   choiceCsv = "#search > div > div > div > div:nth-child(3) > label > small"
   clickDownloadButton = "#search > div > div > div > input"
+  clickManHoursManagement = "#menu_man_hour_manage_img"
+  choiceManHoursManagement = "#menu_man_hour_manage > a:nth-child(1)"
 }
