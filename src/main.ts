@@ -4,7 +4,6 @@ import { DownloadFile } from "./Chrome/DownloadFile"
 import { JobcanOperation } from "./Jobcan/JobcanOperation"
 import { JobcanLogin } from "./Jobcan/JobcanLogin"
 import { getLogger } from "./Log/GetLogger"
-import { AttendanceRecord } from "./Csv/AttendanceRecord"
 import { DateTime } from "luxon"
 import config from "config"
 import path from "path"
@@ -37,38 +36,21 @@ async function workFlow(year: number, month: number) {
 
   await new JobcanLogin(jobcanLoginData, jobcanUrl).login()
   const jobcanOperation = new JobcanOperation(webDriverActionData)
-  await jobcanOperation.openAttendanceRecord()
-  await jobcanOperation.DownloadAttendanceRecordCsv(year, month)
+  await jobcanOperation.openAttendanceRecord().catch((e) => {
+    throw e
+  })
 
-  // ファイルがダウンロードできるまで待つ
-  await jobcanLoginData.driver.sleep(5000)
-
-  const attendanceRecordFileName = fs.readdirSync(
-    path.join(process.cwd(), "fileDownload")
-  )
-
-  console.log(attendanceRecordFileName)
-
-  if (!attendanceRecordFileName) {
-    log.error("Not found: attendanceRecordFileName")
-    throw new Error()
-  }
-  const attendanceRecord = new AttendanceRecord(
-    attendanceRecordFileName[0],
-    path.join(process.cwd(), "fileDownload", attendanceRecordFileName[0])
-  ).getAll()
-  log.debug(attendanceRecord)
-  // .catch((e) => {
-  //   log.debug(
-  //     `ジョブカンの操作がうまくいきませんでした: ${JSON.stringify({
-  //       error: e
-  //     })}`
-  //   )
-  //   throw new Error()
-  // })
+  await jobcanOperation.inputAttendanceRecord(year, month).catch((e) => {
+    log.debug(
+      `ジョブカンの操作がうまくいきませんでした: ${JSON.stringify({
+        error: e
+      })}`
+    )
+    throw e
+  })
 
   // ブラウザ閉じる
-  // await jobcanLoginData.driver.close()
-  // await jobcanLoginData.driver.quit()
+  await jobcanLoginData.driver.close()
+  await jobcanLoginData.driver.quit()
 }
 workFlow(Number(process.argv[2]), Number(process.argv[3]))
