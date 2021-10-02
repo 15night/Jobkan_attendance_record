@@ -25,33 +25,22 @@ export class JobcanOperation extends CommonWebDriverAction {
         async () => (await this.driver.getAllWindowHandles()).length === 2,
         10000
       )
-      .catch((e) => {
+      .catch(() => {
         throw new Error()
       })
 
     //   Chromedriver操作下にあるタブを移動
     const windows = await this.driver.getAllWindowHandles()
     await this.driver.switchTo().window(windows[1])
-
-    await this.driver
-      .wait(
-        async () =>
-          this.elementLocated(jobcanCssSelector.clickAttendanceRecord),
-        10000
-      )
-      .catch((e) => {
-        throw e
-      })
-
-    await this.click(By.css(jobcanCssSelector.clickAttendanceRecord)).catch(
-      (e) => {
-        throw e
-      }
-    )
   }
 
   async inputAttendanceRecord(year: number, month: number) {
-    await this.click(By.css(jobcanCssSelector.clickDownloadButton)).catch(
+    await this.click(By.css(jobcanCssSelector.clickManHoursManagement)).catch(
+      () => {
+        throw new Error()
+      }
+    )
+    await this.click(By.css(jobcanCssSelector.choiceManHoursManagement)).catch(
       () => {
         throw new Error()
       }
